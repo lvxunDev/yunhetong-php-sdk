@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SDK Demo 首页</title>
+    <script src="/example/commons/js/vue2.js"></script>
+    <script src="/example/commons/js/vue-resource.js"></script>
+    <script src="http://sdk.yunhetong.com/sdk/api/yhtapi.js" type="text/javascript" charset="utf-8"></script>
+    <!--<script src="http://sdk.yunhetong.com/sdk/api/m/yht.js" type="text/javascript" charset="utf-8"></script>-->
+    <style>
+        div {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    Hey~ 您好，这里是 yunhetong PHP SDK Demo
+    <br/><br/>
+    服务端返回
+    <div>
+        {{ preResponse }}
+    </div>
+    <br/>
+    生成的合同 id 是
+    <div>{{ contractId }}</div>
+    <br/>
+    token 是
+    <div> {{ token }}</div>
+    解密后的消息 是
+    <div> {{ notice }}</div>
+    <br/>
+
+
+    要操作用户 Token <input v-model="opt_token" type="text" placeholder="请输入用户Token">
+    要操作的合同的id <input v-model="opt_contractId" type="number" placeholder="请输入合同id">
+    <br/>
+    <button @click="getToken('A')">获取用户 A 的 Token</button>
+    <button @click="getToken('B')">获取用户 B 的 Token</button>
+    <button @click="createContract()">创建合同</button>
+    <button @click="tokenContract()">获取 Token 并创建合同</button>
+    <button @click="updateUserInfo()">修改用户信息</button>
+    <button @click="queryContract()">合同查询</button>
+    <button @click="voidContract()">作废合同</button>
+    <button @click="downloadContract()">合同下载</button>
+    <button @click="messageReceive()">消息回调</button>
+
+    <br/>
+    <button @click="toSignManager">去签名管理页面</button>
+    <button @click="toContractManager">去合同管理页面</button>
+
+</div>
+
+</body>
+<script type="text/javascript">
+
+    new Vue({
+        el: "#container",
+        data: {
+            helloWorld: "HelloWorld",
+            token: "未设置",
+            contractId: "还未创建合同",
+            notice: "",
+            preResponse: "",
+            opt_contractId: "",
+            opt_token: "",
+        },
+        computed: {
+            opt_description: function () {
+                return "这里是功能说明";
+            }
+        },
+        methods: {
+            getToken: function (user) {
+                var vm = this;
+                vm.$http.get('/example/token.php', {params: {user: user}}).then(function (response) {
+                    vm.preResponse = response.body;
+                    var body = JSON.parse(response.body);
+                    vm.token = body.value.token;
+                });
+            },
+            createContract: function () {
+                var vm = this;
+                vm.$http.get('/example/create_contract.php').then(function (response) {
+                    vm.preResponse = response.body;
+                    var body = JSON.parse(response.body);
+                    console.log(body);
+                    vm.contractId = body.value.contractId;
+                });
+            },
+            tokenContract: function () {
+                var vm = this;
+                vm.$http.get('/example/token_contract.php').then(function (response) {
+                    vm.preResponse = response.body;
+                    var body = JSON.parse(response.body);
+                    console.log(body);
+                    vm.contractId = body.value.contractId;
+                    vm.token = body.value.token;
+                });
+            },
+            updateUserInfo: function () {
+                var vm = this;
+                vm.$http.get('/example/updateUserInfo.php').then(function (response) {
+                    vm.preResponse = response.body;
+                });
+            },
+            queryContract: function () {
+                var vm = this;
+                vm.$http.get('/example/query_contracts.php').then(function (response) {
+                    vm.preResponse = response.body;
+                });
+            },
+            voidContract: function () {
+                var vm = this;
+                if (!vm.opt_contractId) {
+                    alert("请输入要操作的合同id");
+                    return;
+                }
+                vm.$http.get('/example/invalid_contract.php', {params: {contractId: vm.opt_contractId}}).then(function (response) {
+                    vm.preResponse = response.body;
+                });
+            },
+            downloadContract: function () {
+                var vm = this;
+                if (!vm.opt_contractId) {
+                    alert("请输入要操作的合同id");
+                    return;
+                }
+                vm.$http.get('/example/download_contract.php', {params: {contractId: vm.opt_contractId}}).then(function (response) {
+                    vm.preResponse = response.body;
+                });
+            },
+            messageReceive: function () {
+                var vm = this;
+                vm.$http.post('/example/last_message.php').then(function (response) {
+                    vm.preResponse = response.body;
+                    var body = JSON.parse(response.body);
+                    // 这个给 Demo 的后台发消息，假装是云合同后台发的
+
+                    vm.$http.post('/example/message_receive.php', {
+                        notice: body.value.notice
+                    }, {emulateJSON: true}).then(function (response) {
+                        vm.notice = response.body;
+                    });
+                });
+
+
+            },
+            tokenUnableListener: function (obj) { //当token不合法时，SDK会回调此方法
+                var vm = this;
+                vm.$http.post('/example/token.php').then(function (response) {
+                    var body = JSON.parse(response.body);
+                    YHT.setToken(body.value.token);//重新设置token
+                    YHT.do(obj);//调用此方法，会继续执行上次未完成的操作
+                }, function () {
+                    alert(data.code + " || " + data.msg);
+                })
+            },
+            toSignManager: function () {
+                var vm = this;
+                YHT.init("2016121514373700002", vm.tokenUnableListener);//必须初始化YHT
+                YHT.querySign(function successFun(url) {
+                    window.open(url);
+                }, function failFun(data) {
+                    alert(data.code + " || " + data.msg);
+                },/*这个是回调的前端回调的url*/"http://sdk.yunhetong.com",/*JSON.stringify()之后的回调参数*/"");
+            },
+            toContractManager: function () {
+                var vm = this;
+                if (!vm.opt_contractId) {
+                    alert("请输入合同 Id")
+                }
+                YHT.init("2016121514373700002", vm.tokenUnableListener);//必须初始化YHT
+                YHT.queryContract(function successFun(url) {
+                    window.open(url);
+                }, function failFun(data) {
+                    alert(data.code + " || " + data.msg);
+                }, vm.opt_contractId);//contractId 合同id（必须）
+            }
+
+
+        }
+    });
+
+</script>
+</html>
