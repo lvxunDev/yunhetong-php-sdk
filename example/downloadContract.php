@@ -6,7 +6,6 @@
  * Time: 15:25
  */
 include_once("../library/LxSecretManager.class.php");
-include_once("../library/model/User.php");
 if (isset($_POST["contractId"])) {
 
     $sdk_manager = R::getLxSDKManager();

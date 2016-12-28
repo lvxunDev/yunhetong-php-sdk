@@ -6,7 +6,6 @@
  * Time: 15:25
  */
 include_once("../library/LxSecretManager.class.php");
-include_once("../library/model/User.php");
 
 header('Content-type: application/json;charset=utf-8');
 
