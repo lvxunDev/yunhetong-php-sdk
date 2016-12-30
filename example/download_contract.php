@@ -5,11 +5,11 @@
  * Date: 2016/5/18
  * Time: 15:25
  */
-include_once("../library/LxSecretManager.class.php");
-if (isset($_POST["contractId"])) {
+include_once("./resource/R.php");
 
+if (isset($_GET["contractId"])) {
     $sdk_manager = R::getLxSDKManager();
-    $result = $sdk_manager->downloadContract($_POST["contractId"]);
+    $result = $sdk_manager->downloadContract($_GET["contractId"]);
     if ($result['success']) {
         header("Content-type: application/octet-stream");
         header("Accept-Ranges: bytes");
@@ -17,9 +17,11 @@ if (isset($_POST["contractId"])) {
         header("Content-Disposition: attachment; filename=" . $_POST["contractId"] . '.zip');
         echo $result['body'];
     } else {
+        header('Content-type: application/json;charset=utf-8');
         echo $result['body'];
     }
 
 } else {
-    echo json_decode(array("msg" => "请输入合同标题"));
+    header('Content-type: application/json;charset=utf-8');
+    echo json_encode(array("msg" => "请输入合同编号"));
 }

@@ -17,7 +17,6 @@ include_once("Http.class.php");
 class LxSDKManager
 {
 
-    private $appId;
     private $pub_path;
     private $pri_path;
     private $lx_secret_manager;
@@ -40,7 +39,7 @@ class LxSDKManager
         $this->app_id = $appId;
         $this->pub_path = $pub_path;
         $this->pri_path = $pri_path;
-        $this->lx_secret_manager = new LxSecretManager($this->appId, $this->pri_path, $this->pub_path);
+        $this->lx_secret_manager = new LxSecretManager($this->app_id, $this->pri_path, $this->pub_path);
     }
 
     /**
@@ -78,7 +77,7 @@ class LxSDKManager
         $secret = $this->lx_secret_manager->encrypt(json_encode($current_user));
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
-        return $this->lx_secret_manager->decrypt($result);
+        return $this->lx_secret_manager->decrypt($result['body']);
     }
 
     /**
@@ -93,7 +92,7 @@ class LxSDKManager
         $secret = $this->lx_secret_manager->encrypt(json_encode($user));
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
-        return $this->lx_secret_manager->decrypt($result);
+        return $this->lx_secret_manager->decrypt($result['body']);
     }
 
     /**
@@ -116,7 +115,7 @@ class LxSDKManager
         $secret = $this->lx_secret_manager->encrypt(json_encode($contract_info));
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
-        return $this->lx_secret_manager->decrypt($result);
+        return $this->lx_secret_manager->decrypt($result['body']);
     }
 
     /**
@@ -135,7 +134,7 @@ class LxSDKManager
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
 
-        return $this->lx_secret_manager->decrypt($result);
+        return $this->lx_secret_manager->decrypt($result['body']);
     }
 
     /**
@@ -157,7 +156,7 @@ class LxSDKManager
         $secret = $this->lx_secret_manager->encrypt(json_encode($query_param));
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
-        return $this->lx_secret_manager->decrypt($result);
+        return $this->lx_secret_manager->decrypt($result['body']);
     }
 
     /**
@@ -213,7 +212,15 @@ class LxSDKManager
         $secret = $this->lx_secret_manager->encrypt(json_encode($data));
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
-        return $this->lx_secret_manager->decrypt($result);
+        return $this->lx_secret_manager->decrypt($result['body']);
+    }
+
+    public function getLastNotice()
+    {
+        $url = "/third/getLastNotice";
+        $data = array("appid" => $this->app_id);
+        $result = Http::send_request($this->host . $url, $data, '', 'get');
+        return $this->lx_secret_manager->decrypt($result['body']);
     }
 
 }

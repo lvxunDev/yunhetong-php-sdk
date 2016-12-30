@@ -1,5 +1,6 @@
 <?php
 $root_path = $_SERVER['DOCUMENT_ROOT'];
+include_once($root_path . "/library/LxSDKManager.class.php");
 include_once($root_path . "/library/model/User.php");
 include_once($root_path . "/library/model/Actor.php");
 include_once($root_path . "/library/model/Contract.php");

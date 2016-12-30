@@ -34,6 +34,8 @@
 
     要操作用户 Token <input v-model="opt_token" type="text" placeholder="请输入用户Token">
     要操作的合同的id <input v-model="opt_contractId" type="number" placeholder="请输入合同id">
+    BackURL <input v-model="opt_backURL" type="text" placeholder="请输入BackURL">
+    回调参数 <input v-model="opt_backPara" type="text" placeholder="请输入回调参数">
     <br/>
     <button @click="getToken('A')">获取用户 A 的 Token</button>
     <button @click="getToken('B')">获取用户 B 的 Token</button>
@@ -64,6 +66,8 @@
             preResponse: "",
             opt_contractId: "",
             opt_token: "",
+            opt_backURL: "",
+            opt_backPara: ""
         },
         computed: {
             opt_description: function () {
@@ -163,7 +167,7 @@
                     window.open(url);
                 }, function failFun(data) {
                     alert(data.code + " || " + data.msg);
-                },/*这个是回调的前端回调的url*/"http://sdk.yunhetong.com",/*JSON.stringify()之后的回调参数*/"");
+                }, /*这个是回调的前端回调的url*/vm.opt_backURL, /*JSON.stringify()之后的回调参数*/vm.opt_backPara);
             },
             toContractManager: function () {
                 var vm = this;
@@ -175,7 +179,7 @@
                     window.open(url);
                 }, function failFun(data) {
                     alert(data.code + " || " + data.msg);
-                }, vm.opt_contractId);//contractId 合同id（必须）
+                }, /*要操作的合同Id*/ vm.opt_contractId, /*这个是回调的前端回调的url*/vm.opt_backURL, /*JSON.stringify()之后的回调参数*/vm.opt_backPara);
             }
 
 

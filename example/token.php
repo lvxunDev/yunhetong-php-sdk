@@ -5,9 +5,9 @@
  * Date: 2016/5/18
  * Time: 15:25
  */
-include_once("../library/LxSDKManager.class.php");
+
 include_once("./resource/R.php");
-header('Content-type: application/json;charset=utf-8');
+//header('Content-type: application/json;charset=utf-8');
 
 
 $user = null;

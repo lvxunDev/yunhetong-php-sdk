@@ -63,14 +63,10 @@ class Http
         $ret = curl_exec($ch);
         $info = curl_getinfo($ch);
         $contents = array(
-            'httpInfo' => array(
-                'send' => $data,
-                'url' => $url,
-                'ret' => $ret,
-                'http' => $info,
-            )
+            'httpInfo' => $info,
+            'body' => $ret
         );
         curl_close($ch);
-        return $ret;
+        return $contents;
     }
 }//类定义结束
