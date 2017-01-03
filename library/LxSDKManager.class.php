@@ -215,6 +215,12 @@ class LxSDKManager
         return $this->lx_secret_manager->decrypt($result['body']);
     }
 
+    /**
+     * 获取最后一次发送的消息
+     * 由于消息回调的方法本地不好调试，我们添加了一个获取最后一次消息的接口，方便本地调试
+     * 使用方法：在完成合同操作之后，调用这个方法去获取我们服务端发的消息，然后再处理直接拿到消息模拟消息回调的过程。
+     * @return string
+     */
     public function getLastNotice()
     {
         $url = "/third/getLastNotice";
