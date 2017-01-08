@@ -76,24 +76,6 @@ class R
     }
 
     /**
-     * 获取测试用户A
-     * @return User
-     */
-    public static function getUserA()
-    {
-        $user = new User();
-        $user->appId = self::$appId;
-        $user->appUserId = 'phpTestUserA';
-        $user->userType = 1;
-        $user->cellNum = '11111111111';
-        $user->userName = 'TestA';
-        $user->certifyType = 2;
-        $user->certifyNumber = '52059487';
-        $user->createSignature = "false";
-        return $user;
-    }
-
-    /**
      * 获取合同的参与方 B
      * @return Actor
      */
@@ -110,6 +92,25 @@ class R
      * 获取测试用户A
      * @return User
      */
+    public static function getUserA()
+    {
+        $user = new User();
+        $user->appId = self::$appId;
+        $user->appUserId = 'phpTestUserA1';
+        $user->userType = 1;
+        $user->cellNum = '11111111111';
+        $user->userName = 'TestA';
+        $user->certifyType = 2;
+        $user->certifyNumber = '52059487';
+        $user->createSignature = "0";
+        return $user;
+    }
+
+
+    /**
+     * 获取测试用户A
+     * @return User
+     */
     public static function getUserB()
     {
         $user = new User();
@@ -120,7 +121,7 @@ class R
         $user->userName = 'TestB';
         $user->certifyType = 2;
         $user->certifyNumber = '52059487';
-        $user->createSignature = "false";
+        $user->createSignature = "0";
         return $user;
     }
 
