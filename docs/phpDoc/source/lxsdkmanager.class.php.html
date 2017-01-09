@@ -1,0 +1,295 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Jan 2017 03:26:01 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../overview-summary.html">
+
+<title>LxSDKManager.class.php (yunhetong-php-sdk)</title>
+
+</head>
+<body id="file" onload="parent.document.title=document.title;">
+
+<div class="header">
+<h1>All</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../todo-list.html">Todo</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\lxsdkmanager.class.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<h1>LxSDKManager.class.php</h1>
+<div class="comment" id="overview_description"><p>SDK 主要管理类</p></div>
+
+<hr>
+
+<a name="line1"></a><pre><?php
+<a name="line2"></a>/**
+<a name="line3"></a> * SDK 主要管理类
+<a name="line4"></a> * @author 浣溪沙
+<a name="line5"></a> * Date: 2016/5/18
+<a name="line6"></a> * Time: 9:34
+<a name="line7"></a> */
+<a name="line8"></a>
+<a name="line9"></a>include_once("LxSecretManager.class.php");
+<a name="line10"></a>include_once("model/LxUser.php");
+<a name="line11"></a>include_once("model/ReceiveObj.php");
+<a name="line12"></a>include_once("Http.class.php");
+<a name="line13"></a>
+<a name="line14"></a>/**
+<a name="line15"></a> * Class SDKManager
+<a name="line16"></a> * 对 sdk 功能进行管理的类
+<a name="line17"></a> */
+<a name="line18"></a>class LxSDKManager
+<a name="line19"></a>{
+<a name="line20"></a>
+<a name="line21"></a>    private $pub_path;
+<a name="line22"></a>    private $pri_path;
+<a name="line23"></a>    private $lx_secret_manager;
+<a name="line24"></a>    private $host = "sdk.yunhetong.com/sdk";
+<a name="line25"></a>    private $app_id;
+<a name="line26"></a>
+<a name="line27"></a>
+<a name="line28"></a>    /**
+<a name="line29"></a>     * SDKManager constructor.
+<a name="line30"></a>     *     构造函数，初始话appId，公钥，私钥等信息
+<a name="line31"></a>     * @param $appId
+<a name="line32"></a>     *      应用Id
+<a name="line33"></a>     * @param $pub_path
+<a name="line34"></a>     *     公钥文件地址
+<a name="line35"></a>     * @param $pri_path
+<a name="line36"></a>     *     私钥文件地址
+<a name="line37"></a>     */
+<a name="line38"></a>    public function __construct($appId, $pub_path, $pri_path)
+<a name="line39"></a>    {
+<a name="line40"></a>        $this->app_id = $appId;
+<a name="line41"></a>        $this->pub_path = $pub_path;
+<a name="line42"></a>        $this->pri_path = $pri_path;
+<a name="line43"></a>        $this->lx_secret_manager = new LxSecretManager($this->app_id, $this->pri_path, $this->pub_path);
+<a name="line44"></a>    }
+<a name="line45"></a>
+<a name="line46"></a>    /**
+<a name="line47"></a>     * 对要发给运合同的json进行加密
+<a name="line48"></a>     * @param $json
+<a name="line49"></a>     *     要加密的json
+<a name="line50"></a>     * @return string 返回加密后的字符串
+<a name="line51"></a>     */
+<a name="line52"></a>    public function encrypt($json)
+<a name="line53"></a>    {
+<a name="line54"></a>        return $this->lx_secret_manager->encrypt(json_encode($json));
+<a name="line55"></a>    }
+<a name="line56"></a>
+<a name="line57"></a>    /**
+<a name="line58"></a>     * 对云合同返回的json进行解密
+<a name="line59"></a>     * @param $data
+<a name="line60"></a>     *     要解密的数据
+<a name="line61"></a>     * @return string  返回解密后的数据
+<a name="line62"></a>     */
+<a name="line63"></a>    public function decrypt($data)
+<a name="line64"></a>    {
+<a name="line65"></a>        return $this->lx_secret_manager->decrypt($data);
+<a name="line66"></a>    }
+<a name="line67"></a>
+<a name="line68"></a>    /**
+<a name="line69"></a>     * 导入用户获取Token的方法
+<a name="line70"></a>     * @param $user
+<a name="line71"></a>     *     要导入的用户
+<a name="line72"></a>     * @return string  返回运合同服务器的结果（解密后）
+<a name="line73"></a>     */
+<a name="line74"></a>    public function sync_get_token($user)
+<a name="line75"></a>    {
+<a name="line76"></a>        $url = "/third/tokenWithUser";
+<a name="line77"></a>        $current_user = array("currentUser" => $user);
+<a name="line78"></a>        $secret = $this->lx_secret_manager->encrypt(json_encode($current_user));
+<a name="line79"></a>        $data = array("appid" => $this->app_id, "secret" => $secret);
+<a name="line80"></a>        $result = Http::send_request($this->host . $url, $data, '', 'post');
+<a name="line81"></a>        return $this->lx_secret_manager->decrypt($result['body']);
+<a name="line82"></a>    }
+<a name="line83"></a>
+<a name="line84"></a>    /**
+<a name="line85"></a>     * 修改用户信息的接口
+<a name="line86"></a>     * @param $user
+<a name="line87"></a>     *     要修改的用户，只能更新用户的电话号码和用户名
+<a name="line88"></a>     * @return string  返回运合同服务器的结果（解密后）
+<a name="line89"></a>     */
+<a name="line90"></a>    public function update_user($user)
+<a name="line91"></a>    {
+<a name="line92"></a>        $url = "/third/userUpdate";
+<a name="line93"></a>        $secret = $this->lx_secret_manager->encrypt(json_encode($user));
+<a name="line94"></a>        $data = array("appid" => $this->app_id, "secret" => $secret);
+<a name="line95"></a>        $result = Http::send_request($this->host . $url, $data, '', 'post');
+<a name="line96"></a>        return $this->lx_secret_manager->decrypt($result['body']);
+<a name="line97"></a>    }
+<a name="line98"></a>
+<a name="line99"></a>    /**
+<a name="line100"></a>     * 通过创建合同来获取Token
+<a name="line101"></a>     * @param $current_user
+<a name="line102"></a>     *     合同的发起方
+<a name="line103"></a>     * @param $contract
+<a name="line104"></a>     *     合同实体类
+<a name="line105"></a>     * @param $actors
+<a name="line106"></a>     *     合同的参与者，Actor 数组
+<a name="line107"></a>     * @return string 返回运合同服务器的结果（解密后）
+<a name="line108"></a>     */
+<a name="line109"></a>    public function sync_get_token_with_contract($current_user, $contract,/*这个要是数组*/
+<a name="line110"></a>                                                 $actors)
+<a name="line111"></a>    {
+<a name="line112"></a>        $url = "/third/tokenWithContract";
+<a name="line113"></a>        //  todo 类型判断
+<a name="line114"></a>        $contract_form_vo = array("vo" => $contract, "attendUser" => $actors);
+<a name="line115"></a>        $contract_info = array("currentUser" => $current_user, "contractFormVo" => $contract_form_vo);
+<a name="line116"></a>        $secret = $this->lx_secret_manager->encrypt(json_encode($contract_info));
+<a name="line117"></a>        $data = array("appid" => $this->app_id, "secret" => $secret);
+<a name="line118"></a>        $result = Http::send_request($this->host . $url, $data, '', 'post');
+<a name="line119"></a>        return $this->lx_secret_manager->decrypt($result['body']);
+<a name="line120"></a>    }
+<a name="line121"></a>
+<a name="line122"></a>    /**
+<a name="line123"></a>     * 创建合同
+<a name="line124"></a>     * @param $contract
+<a name="line125"></a>     * @param $actors
+<a name="line126"></a>     * @return string  返回运合同服务器的结果（解密后）
+<a name="line127"></a>     */
+<a name="line128"></a>    public function sync_create_contract($contract, $actors)
+<a name="line129"></a>    {
+<a name="line130"></a>        $url = "/third/autoContract";
+<a name="line131"></a>        $contract_form_vo = array("vo" => $contract, "attendUser" => $actors);
+<a name="line132"></a>        $contract_info = array("contractFormVo" => $contract_form_vo);
+<a name="line133"></a>        $secret = $this->lx_secret_manager->encrypt(json_encode($contract_info));
+<a name="line134"></a>        // todo 这里加log
+<a name="line135"></a>        $data = array("appid" => $this->app_id, "secret" => $secret);
+<a name="line136"></a>        $result = Http::send_request($this->host . $url, $data, '', 'post');
+<a name="line137"></a>
+<a name="line138"></a>        return $this->lx_secret_manager->decrypt($result['body']);
+<a name="line139"></a>    }
+<a name="line140"></a>
+<a name="line141"></a>    /**
+<a name="line142"></a>     * 查询合同
+<a name="line143"></a>     * @param $pageSize
+<a name="line144"></a>     *     每页的大小
+<a name="line145"></a>     * @param $pageNum
+<a name="line146"></a>     *     页数
+<a name="line147"></a>     * @return string 返回运合同服务器的结果（解密后）
+<a name="line148"></a>     */
+<a name="line149"></a>    public function query_contracts($pageSize, $pageNum)
+<a name="line150"></a>    {
+<a name="line151"></a>        $url = "/third/listContract";
+<a name="line152"></a>        $query_param = array(
+<a name="line153"></a>            "flag" => time() * 1000,
+<a name="line154"></a>            "pageSize" => $pageSize < 10 ? 10 : $pageSize,
+<a name="line155"></a>            "pageNum" => $pageNum < 1 ? 1 : $pageNum
+<a name="line156"></a>        );
+<a name="line157"></a>        $secret = $this->lx_secret_manager->encrypt(json_encode($query_param));
+<a name="line158"></a>        $data = array("appid" => $this->app_id, "secret" => $secret);
+<a name="line159"></a>        $result = Http::send_request($this->host . $url, $data, '', 'post');
+<a name="line160"></a>        return $this->lx_secret_manager->decrypt($result['body']);
+<a name="line161"></a>    }
+<a name="line162"></a>
+<a name="line163"></a>    /**
+<a name="line164"></a>     * 对与合同发来的签署信息进行签名
+<a name="line165"></a>     * @param $data
+<a name="line166"></a>     * @return string 返回签名后的数据
+<a name="line167"></a>     */
+<a name="line168"></a>    public function sign_data($data)
+<a name="line169"></a>    {
+<a name="line170"></a>        $content = json_decode($data, true);
+<a name="line171"></a>        if ($content["noticeType"] == 1) {//1时表示普通合同签署
+<a name="line172"></a>            return json_encode(array('response' => true, 'msg' => 'ok'));
+<a name="line173"></a>        } else if ($content["noticeType"] == 2) {//2时表示合同签署完成
+<a name="line174"></a>            $sign = $this->lx_secret_manager->sign_data($content["signDigest"]);
+<a name="line175"></a>            $ret_array = array(
+<a name="line176"></a>                'response' => true,
+<a name="line177"></a>                'msg' => 'ok',
+<a name="line178"></a>                "signDigest" => $this->lx_secret_manager->encrypt(json_encode($sign))
+<a name="line179"></a>            );
+<a name="line180"></a>            return $this->lx_secret_manager->encrypt(json_encode($ret_array));
+<a name="line181"></a>        } else {
+<a name="line182"></a>            return json_encode(array('response' => false, 'msg' => '不是签署成功的合同的数据，不需要签名！'));
+<a name="line183"></a>        }
+<a name="line184"></a>    }
+<a name="line185"></a>
+<a name="line186"></a>    /**
+<a name="line187"></a>     * 下载合同的方法
+<a name="line188"></a>     * @param $contractId
+<a name="line189"></a>     * @return array
+<a name="line190"></a>     */
+<a name="line191"></a>    public function downloadContract($contractId)
+<a name="line192"></a>    {
+<a name="line193"></a>        $url = "/third/download";
+<a name="line194"></a>        $data = array("contractId" => $contractId, "timestamp" => time() * 1000);
+<a name="line195"></a>        $secret = $this->lx_secret_manager->encrypt(json_encode($data));
+<a name="line196"></a>        $data = array("appid" => $this->app_id, "secret" => $secret);
+<a name="line197"></a>        $result = Http::send_request($this->host . $url, $data, '', 'post');
+<a name="line198"></a>        return array(
+<a name="line199"></a>            'success' => $result['httpInfo']['content_type'] == 'application/octet-stream;charset=UTF-8',
+<a name="line200"></a>            'body' => $result['body']
+<a name="line201"></a>        );
+<a name="line202"></a>    }
+<a name="line203"></a>
+<a name="line204"></a>    /**
+<a name="line205"></a>     * 作废合同的方法
+<a name="line206"></a>     * @param $contractId
+<a name="line207"></a>     * @return string
+<a name="line208"></a>     */
+<a name="line209"></a>    public function invalidContract($contractId)
+<a name="line210"></a>    {
+<a name="line211"></a>        $url = "/third/invalidContract";
+<a name="line212"></a>        $data = array("contractId" => $contractId, "timestamp" => time() * 1000);
+<a name="line213"></a>        $secret = $this->lx_secret_manager->encrypt(json_encode($data));
+<a name="line214"></a>        $data = array("appid" => $this->app_id, "secret" => $secret);
+<a name="line215"></a>        $result = Http::send_request($this->host . $url, $data, '', 'post');
+<a name="line216"></a>        return $this->lx_secret_manager->decrypt($result['body']);
+<a name="line217"></a>    }
+<a name="line218"></a>
+<a name="line219"></a>    /**
+<a name="line220"></a>     * 获取最后一次发送的消息
+<a name="line221"></a>     * 由于消息回调的方法本地不好调试，我们添加了一个获取最后一次消息的接口，方便本地调试
+<a name="line222"></a>     * 使用方法：在完成合同操作之后，调用这个方法去获取我们服务端发的消息，然后再处理直接拿到消息模拟消息回调的过程。
+<a name="line223"></a>     * @return string
+<a name="line224"></a>     */
+<a name="line225"></a>    public function getLastNotice()
+<a name="line226"></a>    {
+<a name="line227"></a>        $url = "/third/getLastNotice";
+<a name="line228"></a>        $data = array("appid" => $this->app_id);
+<a name="line229"></a>        $result = Http::send_request($this->host . $url, $data, '', 'get');
+<a name="line230"></a>        return $this->lx_secret_manager->decrypt($result['body']);
+<a name="line231"></a>    }
+<a name="line232"></a>
+<a name="line233"></a>}</pre>
+<div class="header">
+<h1>All</h1>
+<ul>
+<li><a href="../overview-summary.html">Overview</a></li>
+<li>Package</li><li>Class</li><li>Tree</li><li><a href="../overview-files.html">Files</a></li>
+<li><a href="../deprecated-list.html">Deprecated</a></li>
+<li><a href="../todo-list.html">Todo</a></li>
+<li><a href="../index-all.html">Index</a></li>
+</ul>
+</div>
+
+<div class="small_links">
+<a href="../index.html" target="_top">Frames</a>
+<a href="../source\lxsdkmanager.class.php.html" target="_top">No frames</a>
+</div>
+<hr>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor/">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

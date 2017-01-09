@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: Seanwu
+ * 一个不需要关注的类
+ * @author 浣溪沙
  * Date: 2016/5/20
  * Time: 17:20
  */

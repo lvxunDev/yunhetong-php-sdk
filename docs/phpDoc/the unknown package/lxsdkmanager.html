@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="generator" content="PHPDoctor 2.0.5 (http://peej.github.com/phpdoctor/)">
+<meta name="when" content="Mon, 09 Jan 2017 02:19:12 +0000">
+
+<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+<link rel="start" href="../namespaces.html">
+
+<title>LxSDKManager (PHPDoctor)</title>
+
+</head>
+<body id="definition">
+
+<header><h1>PHPDoctor: The PHP Documentation Creator</h1><span>Class</span>
+
+<h2>The Unknown Package\LxSDKManager</h2>
+
+</header><p class="signature">public  class <strong>LxSDKManager</strong></p>
+
+<div class="comment"><p>Class SDKManager
+对 sdk 功能进行管理的类</p></div>
+
+<h3>Methods</h3>
+<table>
+<tr>
+<td class="type"> void</td>
+<td class="description"><p class="name"><a href="#__construct()">__construct</a>(mixed appId, mixed pub_path, mixed pri_path, $appId 应用Id, $pub_path 公钥文件地址, $pri_path 私钥文件地址)</p><p class="description">SDKManager constructor.
+</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#decrypt()">decrypt</a>($data 要解密的数据, mixed data)</p><p class="description">对云合同返回的json进行解密</p></td>
+</tr>
+<tr>
+<td class="type"> array</td>
+<td class="description"><p class="name"><a href="#downloadContract()">downloadContract</a>($contractId contractId)</p><p class="description">下载合同的方法</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#encrypt()">encrypt</a>($json 要加密的json, mixed json)</p><p class="description">对要发给运合同的json进行加密</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#getLastNotice()">getLastNotice</a>()</p><p class="description">获取最后一次发送的消息
+由于消息回调的方法本地不好调试，我们添加了一个获取最后一次消息的接口，方便本地调试
+使用方法：在完成合同操作之后，调用这个方法去获取我们服务端发的消息，然后再处理直接拿到消息模拟消息回调的过程。</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#invalidContract()">invalidContract</a>($contractId contractId)</p><p class="description">作废合同的方法</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#query_contracts()">query_contracts</a>($pageSize 每页的大小, $pageNum 页数, mixed pageSize, mixed pageNum)</p><p class="description">查询合同</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#sign_data()">sign_data</a>($data data)</p><p class="description">对与合同发来的签署信息进行签名</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#sync_create_contract()">sync_create_contract</a>($contract contract, $actors actors)</p><p class="description">创建合同</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#sync_get_token()">sync_get_token</a>($user 要导入的用户, mixed user)</p><p class="description">导入用户获取Token的方法</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#sync_get_token_with_contract()">sync_get_token_with_contract</a>($current_user 合同的发起方, $contract 合同实体类, $actors 合同的参与者，Actor, mixed current_user, mixed contract, mixed actors)</p><p class="description">通过创建合同来获取Token</p></td>
+</tr>
+<tr>
+<td class="type"> string</td>
+<td class="description"><p class="name"><a href="#update_user()">update_user</a>($user 要修改的用户，只能更新用户的电话号码和用户名, mixed user)</p><p class="description">修改用户信息的接口</p></td>
+</tr>
+</table>
+
+<h3>Details</h3>
+<code class="signature" id="__construct">public  void <strong>__construct</strong>(mixed appId, mixed pub_path, mixed pri_path, $appId 应用Id, $pub_path 公钥文件地址, $pri_path 私钥文件地址)</code>
+<div class="details">
+<p>SDKManager constructor.
+构造函数，初始话appId，公钥，私钥等信息</p></div>
+
+<code class="signature" id="decrypt">public  string <strong>decrypt</strong>($data 要解密的数据, mixed data)</code>
+<div class="details">
+<p>对云合同返回的json进行解密</p><table>
+<tr><th>Returns</th>
+<td>返回解密后的数据</td>
+</tr></table>
+</div>
+
+<code class="signature" id="downloadContract">public  array <strong>downloadContract</strong>($contractId contractId)</code>
+<div class="details">
+<p>下载合同的方法</p></div>
+
+<code class="signature" id="encrypt">public  string <strong>encrypt</strong>($json 要加密的json, mixed json)</code>
+<div class="details">
+<p>对要发给运合同的json进行加密</p><table>
+<tr><th>Returns</th>
+<td>返回加密后的字符串</td>
+</tr></table>
+</div>
+
+<code class="signature" id="getLastNotice">public  string <strong>getLastNotice</strong>()</code>
+<div class="details">
+<p>获取最后一次发送的消息
+由于消息回调的方法本地不好调试，我们添加了一个获取最后一次消息的接口，方便本地调试
+使用方法：在完成合同操作之后，调用这个方法去获取我们服务端发的消息，然后再处理直接拿到消息模拟消息回调的过程。</p></div>
+
+<code class="signature" id="invalidContract">public  string <strong>invalidContract</strong>($contractId contractId)</code>
+<div class="details">
+<p>作废合同的方法</p></div>
+
+<code class="signature" id="query_contracts">public  string <strong>query_contracts</strong>($pageSize 每页的大小, $pageNum 页数, mixed pageSize, mixed pageNum)</code>
+<div class="details">
+<p>查询合同</p><table>
+<tr><th>Returns</th>
+<td>返回运合同服务器的结果（解密后）</td>
+</tr></table>
+</div>
+
+<code class="signature" id="sign_data">public  string <strong>sign_data</strong>($data data)</code>
+<div class="details">
+<p>对与合同发来的签署信息进行签名</p><table>
+<tr><th>Returns</th>
+<td>返回签名后的数据</td>
+</tr></table>
+</div>
+
+<code class="signature" id="sync_create_contract">public  string <strong>sync_create_contract</strong>($contract contract, $actors actors)</code>
+<div class="details">
+<p>创建合同</p><table>
+<tr><th>Returns</th>
+<td>返回运合同服务器的结果（解密后）</td>
+</tr></table>
+</div>
+
+<code class="signature" id="sync_get_token">public  string <strong>sync_get_token</strong>($user 要导入的用户, mixed user)</code>
+<div class="details">
+<p>导入用户获取Token的方法</p><table>
+<tr><th>Returns</th>
+<td>返回运合同服务器的结果（解密后）</td>
+</tr></table>
+</div>
+
+<code class="signature" id="sync_get_token_with_contract">public  string <strong>sync_get_token_with_contract</strong>($current_user 合同的发起方, $contract 合同实体类, $actors 合同的参与者，Actor, mixed current_user, mixed contract, mixed actors)</code>
+<div class="details">
+<p>通过创建合同来获取Token</p><table>
+<tr><th>Parameters</th>
+<td></td>
+<td></td>
+<td>合同的参与者，Actor - 数组</td>
+</tr><tr><th>Returns</th>
+<td>返回运合同服务器的结果（解密后）</td>
+</tr></table>
+</div>
+
+<code class="signature" id="update_user">public  string <strong>update_user</strong>($user 要修改的用户，只能更新用户的电话号码和用户名, mixed user)</code>
+<div class="details">
+<p>修改用户信息的接口</p><table>
+<tr><th>Returns</th>
+<td>返回运合同服务器的结果（解密后）</td>
+</tr></table>
+</div>
+
+<p id="footer">This document was generated by <a href="http://peej.github.com/phpdoctor">PHPDoctor: The PHP Documentation Creator</a></p>
+
+</body>
+
+</html>

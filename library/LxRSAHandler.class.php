@@ -2,7 +2,7 @@
 
 /**
  * RSA 加密的相关方法
- * User: Seanwu
+ * @author 浣溪沙
  * Date: 2016/5/20
  * Time: 16:53
  */

@@ -3,7 +3,7 @@
 /**
  * Http 工具类
  * 提供一系列的Http方法
- *
+ * @author 浣溪沙
  */
 class Http
 {

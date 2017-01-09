@@ -16,3 +16,4 @@ $sdk_manager = R::getLxSDKManager();
 echo $sdk_manager->decrypt($notice);
 
 
+

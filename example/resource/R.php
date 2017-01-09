@@ -1,7 +1,7 @@
 <?php
 $root_path = $_SERVER['DOCUMENT_ROOT'];
 include_once($root_path . "/library/LxSDKManager.class.php");
-include_once($root_path . "/library/model/User.php");
+include_once($root_path . "/library/model/LxUser.php");
 include_once($root_path . "/library/model/Actor.php");
 include_once($root_path . "/library/model/Contract.php");
 
@@ -90,11 +90,11 @@ class R
 
     /**
      * 获取测试用户A
-     * @return User
+     * @return LxUser
      */
     public static function getUserA()
     {
-        $user = new User();
+        $user = new LxUser();
         $user->appId = self::$appId;
         $user->appUserId = 'phpTestUserA1';
         $user->userType = 1;
@@ -109,11 +109,11 @@ class R
 
     /**
      * 获取测试用户A
-     * @return User
+     * @return LxUser
      */
     public static function getUserB()
     {
-        $user = new User();
+        $user = new LxUser();
         $user->appId = self::$appId;
         $user->appUserId = 'phpTestUserB';
         $user->userType = 1;

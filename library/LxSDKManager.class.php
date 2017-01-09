@@ -1,12 +1,13 @@
 <?php
 /**
- * User: SeanWu
+ * SDK 主要管理类
+ * @author 浣溪沙
  * Date: 2016/5/18
  * Time: 9:34
  */
 
 include_once("LxSecretManager.class.php");
-include_once("model/User.php");
+include_once("model/LxUser.php");
 include_once("model/ReceiveObj.php");
 include_once("Http.class.php");
 

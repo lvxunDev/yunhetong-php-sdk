@@ -3,7 +3,7 @@
 - 我们为您编写了一份详细的 ```Demo``` 在 sdk 的 ```example``` 目录下
 - 你可以查看详细的[文档](https://github.com/lvxunDev/yunhetong-php-sdk/wiki)
 - 遇到问题可以先去看看我们的 [Issue](https://github.com/lvxunDev/yunhetong-php-sdk/issues)
-- 或者也许你想看看 [JavaDoc](https://lvxundev.github.io/yunhetong-sdk-java/phpDoc.html)
+- 或者也许你想看看 [phpDoc](https://lvxundev.github.io/yunhetong-php-sdk/phpDoc.html)
 
 # 0x00 目录结构
 
