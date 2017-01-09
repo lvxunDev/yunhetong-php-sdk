@@ -7,6 +7,7 @@
 
 # 0x00 目录结构
 
+```
 phpSDK
 |
 |-------docs     // 一些说明文档
@@ -19,6 +20,7 @@ phpSDK
 |         |---- LxSDKManager.class.php      // 客户最主要使用的一个类
 |         |---- LxSecretManager.class.php   // 加解密管理类，客户一般不需要调用
 |         |---- StringUtils.php             // 字符串处理的工具类
+```
 
 # 0x01 初始化 LxSDKManager
 

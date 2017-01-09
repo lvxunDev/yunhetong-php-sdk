@@ -7,6 +7,7 @@
 
 # 0x00 目录结构
 
+```
 phpSDK
 |
 |-------docs     // 一些说明文档
@@ -19,6 +20,7 @@ phpSDK
 |         |---- LxSDKManager.class.php      // 客户最主要使用的一个类
 |         |---- LxSecretManager.class.php   // 加解密管理类，客户一般不需要调用
 |         |---- StringUtils.php             // 字符串处理的工具类
+```
 
 # 0x01 初始化 LxSDKManager
 
@@ -194,7 +196,6 @@ echo $sdk_manager->sync_get_token($user);
 
 ```php
 $sdk_manager = R::getLxSDKManager();
-
 echo $sdk_manager->sync_create_contract(R::getTestContract(), R::getActor());
 ```
 
@@ -204,19 +205,21 @@ echo $sdk_manager->sync_create_contract(R::getTestContract(), R::getActor());
 ```
 {"code":200,"message":"true","subCode":200,"value":{"contractId":1701061352090008}}
 ```
+
 将上一步得到的 token 和这里的 contractId 返回给客户端，即可用相应的 SDK（比如js SDK 或 Android SDK 或 iOS SDK），去进行合同的相关操作。
 
 # 0x04 通过创建合同获取 token
 有时候我们想在创建合同的同时也获取 Token，我们可以像下面这样
+
 ```php
 $sdk_manager = R::getLxSDKManager();
 echo $sdk_manager->sync_get_token_with_contract(R::getUserA(), R::getTestContract(), R::getActor());
 ```
 
 正常的话会返回如下所示字符串
+
 ```json
 {"code":200,"message":"true","subCode":200,"value":{"contractId":1701061349385004,"token":"TGT-31353-vpnotTbYFJ5wXoTUDzjSD9eVqZfzx9RZIsUhqGcEL5kjRcS6V6-cas01.example.org"}}
-
 ```
 
 
