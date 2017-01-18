@@ -8,7 +8,6 @@
 
 include_once("LxSecretManager.class.php");
 include_once("model/LxUser.php");
-include_once("model/ReceiveObj.php");
 include_once("Http.class.php");
 
 /**
