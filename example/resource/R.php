@@ -96,10 +96,10 @@ class R
     {
         $user = new LxUser();
         $user->appId = self::$appId;
-        $user->appUserId = 'phpTestUserA1';
+        $user->appUserId = 'pythonTestUserA';
         $user->userType = 1;
-        $user->cellNum = '11111111111';
-        $user->userName = 'TestA';
+        $user->cellNum = '11111111122';
+        $user->userName = 'TestB';
         $user->certifyType = 2;
         $user->certifyNumber = '52059487';
         $user->createSignature = "0";
@@ -115,7 +115,7 @@ class R
     {
         $user = new LxUser();
         $user->appId = self::$appId;
-        $user->appUserId = 'phpTestUserB';
+        $user->appUserId = 'pythonTestUserB';
         $user->userType = 1;
         $user->cellNum = '11111111122';
         $user->userName = 'TestB';
