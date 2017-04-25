@@ -14,7 +14,7 @@ if (isset($_GET["contractId"])) {
         header("Content-type: application/octet-stream");
         header("Accept-Ranges: bytes");
         header("Accept-Length: " . strlen($result['body']));
-        header("Content-Disposition: attachment; filename=" . $_POST["contractId"] . '.zip');
+        header("Content-Disposition: attachment; filename=" . $_GET["contractId"] . '.zip');
         echo $result['body'];
     } else {
         header('Content-type: application/json;charset=utf-8');
