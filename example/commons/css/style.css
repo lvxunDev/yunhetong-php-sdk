@@ -1,0 +1,263 @@
+*, *::before, *::after {
+  box-sizing: border-box; }
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, button, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0; }
+
+button, input {
+  line-height: normal; }
+
+button, select {
+  text-transform: none; }
+
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer; }
+
+button[disabled], html input[disabled] {
+  cursor: default; }
+
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0; }
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box; }
+
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+textarea {
+  overflow: auto;
+  vertical-align: top; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+body {
+  background: #fafbf1; }
+
+#container {
+  line-height: 24px;
+  background: white;
+  border-radius: 10px;
+  padding: 50px 50px 80px;
+  margin: auto;
+  width: calc(100vw - 345px);
+  height: 85vh;
+  overflow: auto;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22); }
+
+#main {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; }
+  #main #left, #main #right {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px; }
+
+.leader-board {
+  width: 285px;
+  height: 597px;
+  background: linear-gradient(to bottom, #3a404d, #181c26);
+  border-radius: 10px;
+  box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
+  margin: auto; }
+  .leader-board h1 {
+    font-size: 18px;
+    color: #e1e1e1;
+    padding: 0 13px; }
+    .leader-board h1 svg {
+      width: 25px;
+      height: 26px;
+      position: relative;
+      top: 3px;
+      margin-right: 6px;
+      vertical-align: baseline; }
+  .leader-board ol {
+    counter-reset: leader-board; }
+    .leader-board ol li {
+      position: relative;
+      z-index: 1;
+      font-size: 14px;
+      counter-increment: leader-board;
+      padding: 16px 10px 16px 50px;
+      cursor: pointer;
+      backface-visibility: hidden;
+      transform: translateZ(0) scale(1, 1); }
+      .leader-board ol li::before {
+        content: counter(leader-board);
+        position: absolute;
+        z-index: 2;
+        top: 15px;
+        left: 15px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        color: #c24448;
+        background: #fff;
+        border-radius: 20px;
+        text-align: center; }
+      .leader-board ol li button {
+        z-index: 2;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: none;
+        color: #fff;
+        cursor: pointer;
+        outline: none; }
+        .leader-board ol li button::before, .leader-board ol li button::after {
+          content: '';
+          position: absolute;
+          z-index: 1;
+          bottom: -11px;
+          left: -9px;
+          border-top: 10px solid #c24448;
+          border-left: 10px solid transparent;
+          transition: all .1s ease-in-out;
+          opacity: 0; }
+        .leader-board ol li button::after {
+          left: auto;
+          right: -9px;
+          border-left: none;
+          border-right: 10px solid transparent; }
+      .leader-board ol li {
+        background: #d7514d; }
+        .leader-board ol li::after {
+          background: #d7514d;
+          box-shadow: 0 1px 0 rgba(0, 0, 0, 0.11); }
+        .leader-board ol li button::before, .leader-board ol li button::after {
+          border-top: 2px solid #b0433f;
+          bottom: -3px; }
+      .leader-board ol li small {
+        position: relative;
+        z-index: 2;
+        display: block;
+        text-align: right; }
+      .leader-board ol li::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #d7514d;
+        box-shadow: 0 3px 0 rgba(0, 0, 0, 0.08);
+        transition: all .3s ease-in-out;
+        opacity: 0; }
+      .leader-board ol li:nth-child(1) {
+        background: #fa6855; }
+        .leader-board ol li:nth-child(1)::after {
+          background: #fa6855;
+          box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08); }
+        .leader-board ol li:nth-child(1) button::before, .leader-board ol li:nth-child(1) button::after {
+          border-top: 6px solid #ba4741;
+          bottom: -7px; }
+      .leader-board ol li:nth-child(2) {
+        background: #f36354; }
+        .leader-board ol li:nth-child(2)::after {
+          background: #f36354; }
+      .leader-board ol li:nth-child(3) {
+        background: #ee6053; }
+        .leader-board ol li:nth-child(3)::after {
+          background: #ee6053; }
+      .leader-board ol li:nth-child(4) {
+        background: #e85c52; }
+        .leader-board ol li:nth-child(4)::after {
+          background: #e85c52; }
+      .leader-board ol li:nth-child(5) {
+        background: #e25851; }
+        .leader-board ol li:nth-child(5)::after {
+          background: #e25851; }
+      .leader-board ol li:nth-child(6) {
+        background: #dc5450; }
+        .leader-board ol li:nth-child(6)::after {
+          background: #dc5450; }
+      .leader-board ol li:nth-child(7) {
+        background: #d6504f; }
+        .leader-board ol li:nth-child(7)::after {
+          background: #d6504f; }
+      .leader-board ol li:nth-child(8) {
+        background: #cf4b4e; }
+        .leader-board ol li:nth-child(8)::after {
+          background: #cf4b4e; }
+      .leader-board ol li:nth-child(9) {
+        background: #cb484c; }
+        .leader-board ol li:nth-child(9)::after {
+          background: #cb484c; }
+      .leader-board ol li:nth-last-child(2) {
+        background: #c8454c; }
+        .leader-board ol li:nth-last-child(2)::after {
+          background: #c8454c;
+          box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15); }
+        .leader-board ol li:nth-last-child(2) button::before, .leader-board ol li:nth-last-child(2) button::after {
+          top: -7px;
+          bottom: auto;
+          border-top: none;
+          border-bottom: 6px solid #a63d3d; }
+      .leader-board ol li:nth-last-child(1) {
+        background: #c24448;
+        border-radius: 0 0 10px 10px; }
+        .leader-board ol li:nth-last-child(1)::after {
+          background: #c24448;
+          box-shadow: 0 -2.5px 0 rgba(0, 0, 0, 0.12);
+          border-radius: 0 0 10px 10px; }
+        .leader-board ol li:nth-last-child(1) button::before, .leader-board ol li:nth-last-child(1) button::after {
+          top: -9px;
+          bottom: auto;
+          border-top: none;
+          border-bottom: 8px solid #993639; }
+    .leader-board ol li:hover {
+      z-index: 2;
+      overflow: visible; }
+      .leader-board ol li:hover::after {
+        opacity: 1;
+        transform: scaleX(1.06) scaleY(1.03); }
+      .leader-board ol li:hover button::before, .leader-board ol li:hover button::after {
+        opacity: 1;
+        transition: all .35s ease-in-out; }
+
+/*# sourceMappingURL=style.css.map */

@@ -3,61 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <title>SDK Demo 首页</title>
+    <link rel="stylesheet" href="/example/commons/css/style.css">
+    <link rel="stylesheet" href="/example/commons/css/component.css">
     <script src="/example/commons/js/vue2.js"></script>
     <script src="/example/commons/js/vue-resource.js"></script>
     <script src="http://sdk.yunhetong.com/sdk/api/yhtapi.js" type="text/javascript" charset="utf-8"></script>
     <!--<script src="http://sdk.yunhetong.com/sdk/api/m/yht.js" type="text/javascript" charset="utf-8"></script>-->
     <style>
-        div {
-            margin-bottom: 15px;
+        .json {
+            padding: 5px;
+            text-align: left;
+            font-size: 14px;
+            color: #d4d4d4;
+        }
+
+        .json .string {
+            color: rgba(206, 145, 120, 1);
+        }
+
+        .json .number {
+            color: rgba(181, 206, 168, 1);
+        }
+
+        .json .boolean {
+            color: rgba(215, 186, 125, 1);
+        }
+
+        .json .null {
+            color: rgba(86, 156, 214, 1);
+        }
+
+        .json .key {
+            color: rgba(156, 220, 254, 1);
         }
     </style>
 </head>
 <body>
-<div id="container">
-    Hey~ 您好，这里是 yunhetong PHP SDK Demo
-    <br/><br/>
-    服务端返回
-    <div>
-        {{ preResponse }}
+
+<div id="main">
+    <div id="left">
+        <div class="leader-board">
+            <h1>
+                功能选择
+            </h1>
+            <ol>
+                <li @click="getToken('A')">
+                    <button>获取用户 A 的 Token</button>
+                </li>
+                <li @click="getToken('B')">
+                    <button>获取用户 B 的 Token</button>
+                </li>
+                <li @click="createContract()">
+                    <button>创建合同</button>
+                </li>
+                <li @click="tokenContract()">
+                    <button>获取 Token 并创建合同</button>
+                </li>
+                <li @click="updateUserInfo()">
+                    <button>修改用户信息</button>
+                </li>
+                <li @click="queryContract()">
+                    <button>合同查询</button>
+                </li>
+                <li @click="voidContract()">
+                    <button>作废合同</button>
+                </li>
+                <li @click="downloadContract()">
+                    <button>合同下载</button>
+                </li>
+                <li @click="messageReceive()">
+                    <button>消息回调</button>
+                </li>
+                <li @click="toSignManager">
+                    <button>去签名管理页面</button>
+                </li>
+                <li @click="toContractManager">
+                    <button>去合同管理页面</button>
+                </li>
+            </ol>
+        </div>
+
     </div>
-    <br/>
-    生成的合同 id 是
-    <div>{{ contractId }}</div>
-    <br/>
-    token 是
-    <div> {{ token }}</div>
-    解密后的消息 是
-    <div> {{ notice }}</div>
-    <br/>
+    <div id="right">
+        <div>
+            <span class="input input--isao">
+                <input class="input__field input__field--isao" v-model="opt_token" type="text"/>
+                <label class="input__label input__label--isao" data-content="请输入用户Token">
+                    <span class="input__label-content input__label-content--isao">要操作用户 Token</span>
+                </label>
+            </span>
+            <span class="input input--isao">
+                <input class="input__field input__field--isao" v-model="opt_contractId" type="text"/>
+                <label class="input__label input__label--isao" data-content="请输入合同id">
+                    <span class="input__label-content input__label-content--isao">要操作的合同的id</span>
+                </label>
+            </span>
+            <span class="input input--isao">
+                <input class="input__field input__field--isao" v-model="opt_backURL" type="text"/>
+                <label class="input__label input__label--isao" data-content="请输入BackURL">
+                    <span class="input__label-content input__label-content--isao">BackURL</span>
+                </label>
+            </span>
+            <span class="input input--isao">
+                <input class="input__field input__field--isao" v-model="opt_backPara" type="text"/>
+                <label class="input__label input__label--isao" data-content="请输入回调参数">
+                    <span class="input__label-content input__label-content--isao">回调参数</span>
+                </label>
+        </span>
+        </div>
+        <div id="container">
+            <h1>Hey~ 您好，这里是 </h1>
+            <h1>yunhetong PHP SDK Demo</h1>
+            <b>服务端返回</b>
+            <div v-html="preResponse"></div>
+            <br/>
+            <b>生成的合同 id 是</b>
+            <div>{{ contractId }}</div>
+            <br/>
+            <b>token 是</b>
+            <div> {{ token }}</div>
+            <b>解密后的消息 是</b>
+            <div> {{ notice }}</div>
+            <br/>
 
 
-    要操作用户 Token <input v-model="opt_token" type="text" placeholder="请输入用户Token">
-    要操作的合同的id <input v-model="opt_contractId" type="number" placeholder="请输入合同id">
-    BackURL <input v-model="opt_backURL" type="text" placeholder="请输入BackURL">
-    回调参数 <input v-model="opt_backPara" type="text" placeholder="请输入回调参数">
-    <br/>
-    <button @click="getToken('A')">获取用户 A 的 Token</button>
-    <button @click="getToken('B')">获取用户 B 的 Token</button>
-    <button @click="createContract()">创建合同</button>
-    <button @click="tokenContract()">获取 Token 并创建合同</button>
-    <button @click="updateUserInfo()">修改用户信息</button>
-    <button @click="queryContract()">合同查询</button>
-    <button @click="voidContract()">作废合同</button>
-    <button @click="downloadContract()">合同下载</button>
-    <button @click="messageReceive()">消息回调</button>
+            <!--要操作用户 Token <input v-model="opt_token" type="text" placeholder="请输入用户Token">-->
+            <!--要操作的合同的id <input v-model="opt_contractId" type="number" placeholder="请输入合同id">-->
+            <!--BackURL <input v-model="opt_backURL" type="text" placeholder="请输入BackURL">-->
+            <!--回调参数 <input v-model="opt_backPara" type="text" placeholder="请输入回调参数">-->
 
-    <br/>
-    <button @click="toSignManager">去签名管理页面</button>
-    <button @click="toContractManager">去合同管理页面</button>
 
+            <br/>
+        </div>
+    </div>
 </div>
 
+
 </body>
+
+<script>
+    /**
+     * @return {string}
+     */
+    function ObjectToHtml1(data) {
+        // 若传入数值为json，则转换为字符串
+        var txt = typeof data === 'string' ? data : JSON.stringify(data);
+        // 转换为Object
+        try {
+            var obj = eval('(' + txt + ')');
+        } catch (e) {
+            alert('数据源语法错误,JSON格式化失败! 错误信息: ' + e.description, 'err');
+            return
+        }
+        var line = '</br>', // 换行
+            indentChar = '&nbsp;&nbsp;&nbsp;&nbsp;'; // 缩进量
+        // 获取缩进字符
+        var getTab = function (num) {
+            for (var i = 0, tab = ''; i < num; i++) {
+                tab += indentChar;
+            }
+            return tab;
+        };
+        // 检测递归
+        var format = function (value, indent /*缩进*/, isLast /*是否数组或者对象最后*/, inArray /*是否在数组中*/) {
+            var str = '';
+            // 将处理为`[value,value]`，并将进入检测递归
+            if (Object.prototype.toString.call(value) === '[object Array]') {
+                str += '[';
+                value.forEach(function (item, index) {
+                    str += format(item, indent, index === (value.length - 1), true);
+                });
+                str += ']';
+                // null，将处理为`<span class="null">null</span>`
+            } else if (value === null) {
+                str += '<span class="null">null</span>';
+                // 对象Object，将处理为`{<span class="key">"key"</span>:value}`，并进入检测递归
+            } else if (typeof value === 'object') {
+                str += '{' + line + getTab(++indent);
+                var keys = Object.keys(value);
+                keys.forEach(function (key, index) {
+                    str += '<span class="key">"' + key + '"</span>: ' + format(value[key], indent, index === (keys.length - 1));
+                });
+                str += '}';
+                indent--;
+                // true/false，将处理为`<span class="boolen/null">true/false</span>`
+            } else if (typeof value === 'boolean') {
+                str += '<span class="boolean">' + value + '</span>';
+                // 字符串，将处理为`<span class="string">"string"</span>`
+            } else if (typeof value === 'string') {
+                str += '<span class="string">"' + value + '"</span>';
+                // 数字Number，将处理为`<span class="number">1</span>`
+            } else {
+                str += '<span class="number">' + value + '</span>';
+            }
+            str += (isLast ? '' : ',') + (inArray ? '' : (line + getTab(isLast ? --indent : indent)));
+            return str;
+        };
+        return ('<div class="json">' + format(obj, 0, true) + '</div>');
+    }
+</script>
 <script type="text/javascript">
 
     new Vue({
-        el: "#container",
+        el: "#main",
         data: {
             helloWorld: "HelloWorld",
             token: "未设置",
@@ -78,7 +226,7 @@
             getToken: function (user) {
                 var vm = this;
                 vm.$http.get('/example/token.php', {params: {user: user}}).then(function (response) {
-                    vm.preResponse = response.body;
+                    vm.preResponse = ObjectToHtml1(response.body);
                     var body = JSON.parse(response.body);
                     vm.token = body.value.token;
                 });
@@ -86,7 +234,7 @@
             createContract: function () {
                 var vm = this;
                 vm.$http.get('/example/create_contract.php').then(function (response) {
-                    vm.preResponse = response.body;
+                    vm.preResponse = ObjectToHtml1(response.body);
                     var body = JSON.parse(response.body);
                     console.log(body);
                     vm.contractId = body.value.contractId;
@@ -95,7 +243,7 @@
             tokenContract: function () {
                 var vm = this;
                 vm.$http.get('/example/token_contract.php').then(function (response) {
-                    vm.preResponse = response.body;
+                    vm.preResponse = ObjectToHtml1(response.body);
                     var body = JSON.parse(response.body);
                     console.log(body);
                     vm.contractId = body.value.contractId;
@@ -105,13 +253,13 @@
             updateUserInfo: function () {
                 var vm = this;
                 vm.$http.get('/example/updateUserInfo.php').then(function (response) {
-                    vm.preResponse = response.body;
+                    vm.preResponse = ObjectToHtml1(response.body);
                 });
             },
             queryContract: function () {
                 var vm = this;
                 vm.$http.get('/example/query_contracts.php').then(function (response) {
-                    vm.preResponse = response.body;
+                    vm.preResponse = ObjectToHtml1(response.body);
                 });
             },
             voidContract: function () {
@@ -121,7 +269,7 @@
                     return;
                 }
                 vm.$http.get('/example/invalid_contract.php', {params: {contractId: vm.opt_contractId}}).then(function (response) {
-                    vm.preResponse = response.body;
+                    vm.preResponse = ObjectToHtml1(response.body);
                 });
             },
             downloadContract: function () {
@@ -130,14 +278,12 @@
                     alert("请输入要操作的合同id");
                     return;
                 }
-                vm.$http.get('/example/download_contract.php', {params: {contractId: vm.opt_contractId}}).then(function (response) {
-                    vm.preResponse = response.body;
-                });
+                window.location.href = "/example/download_contract.php?contractId=" + vm.opt_contractId;
             },
             messageReceive: function () {
                 var vm = this;
                 vm.$http.post('/example/last_message.php').then(function (response) {
-                    vm.preResponse = response.body;
+                    vm.preResponse = ObjectToHtml1(response.body);
                     var body = JSON.parse(response.body);
                     // 这个给 Demo 的后台发消息，假装是云合同后台发的
 
@@ -185,4 +331,6 @@
     });
 
 </script>
+
+
 </html>
