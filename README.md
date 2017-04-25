@@ -1,5 +1,6 @@
 # php SDK 接入快速上手
 
+- 本demo基于 PHP 5.5,如是其他版本的请自行进行相应的修改。
 - 我们为您编写了一份详细的 ```Demo``` 在 sdk 的 ```example``` 目录下
 - 你可以查看详细的[文档](https://github.com/lvxunDev/yunhetong-php-sdk/wiki)
 - 遇到问题可以先去看看我们的 [Issue](https://github.com/lvxunDev/yunhetong-php-sdk/issues)
