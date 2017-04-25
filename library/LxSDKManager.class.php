@@ -129,7 +129,7 @@ class LxSDKManager
         $url = "/third/autoContract";
         $contract_form_vo = array("vo" => $contract, "attendUser" => $actors);
         $contract_info = array("contractFormVo" => $contract_form_vo);
-        $secret = $this->lx_secret_manager->encrypt(json_encode($contract_info));
+        $secret = $this->lx_secret_manager->encrypt(str_replace("\"params\":[]","\"params\":{}",json_encode($contract_info)));
         // todo 这里加log
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
