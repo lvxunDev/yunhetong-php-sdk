@@ -6,6 +6,7 @@
  * Time: 15:25
  */
 include_once("../library/LxSecretManager.class.php");
+include_once("./resource/R.php");
 header('Content-type: application/json;charset=utf-8');
 
 if (isset($_GET["contractId"])) {
