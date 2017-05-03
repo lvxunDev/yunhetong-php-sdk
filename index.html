@@ -114,9 +114,6 @@
         <div id="container">
             <h1>Hey~ 您好，这里是 </h1>
             <h1>yunhetong PHP SDK Demo</h1>
-            <b>服务端返回</b>
-            <div v-html="preResponse"></div>
-            <br/>
             <b>生成的合同 id 是</b>
             <div>{{ contractId }}</div>
             <br/>
@@ -125,7 +122,9 @@
             <b>解密后的消息 是</b>
             <div> {{ notice }}</div>
             <br/>
-
+            <b>服务端返回</b>
+            <div v-html="preResponse"></div>
+            <br/>
 
             <!--要操作用户 Token <input v-model="opt_token" type="text" placeholder="请输入用户Token">-->
             <!--要操作的合同的id <input v-model="opt_contractId" type="number" placeholder="请输入合同id">-->
@@ -208,8 +207,8 @@
         el: "#main",
         data: {
             helloWorld: "HelloWorld",
-            token: "未设置",
-            contractId: "还未创建合同",
+            token: "",
+            contractId: "",
             notice: "",
             preResponse: "",
             opt_contractId: "",
