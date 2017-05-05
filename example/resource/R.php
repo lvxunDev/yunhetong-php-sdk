@@ -23,7 +23,7 @@ class R
     public static function getLxSDKManager()
     {
         $current_path = realpath(dirname(__FILE__));
-        return new LxSDKManager(self::$appId, $current_path . "\\key\\yhtSK.pem", $current_path . "\\key\\rsa_private_key_pkcs8.pem");
+        return new LxSDKManager(self::$appId, "$current_path\\key\\yhtSK.pem", "$current_path\\key\\rsa_private_key_pkcs8.pem");
     }
 
     /**
