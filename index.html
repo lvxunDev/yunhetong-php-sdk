@@ -61,7 +61,7 @@
             <span class="input input--isao">
                 <input class="input__field input__field--isao" v-model="opt_token" type="text"/>
                 <label class="input__label input__label--isao" data-content="请输入用户Token">
-<span class="input__label-content input__label-content--isao">要操作用户 Token</span>
+                    <span class="input__label-content input__label-content--isao">要操作用户 Token</span>
                 </label>
             </span>
             <span class="input input--isao">
@@ -92,7 +92,7 @@
             <b>token 是</b>
             <div> {{ token }}</div>
             <b>解密后的消息 是</b>
-            <div> {{ notice }}</div>
+            <div v-html="notice"></div>
             <br/>
             <b>服务端返回</b>
             <div v-html="preResponse"></div>
@@ -201,7 +201,7 @@
                     vm.$http.post('/example/message_receive.php', {
                         notice: body.value.notice
                     }, {emulateJSON: true}).then(function (response) {
-                        vm.notice = response.body;
+                        vm.notice = ObjectToHtml1(response.body);
                     });
                 });
 
