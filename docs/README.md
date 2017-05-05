@@ -50,7 +50,7 @@ class R
     }
 }
 ```
-其中公私玥参考公私玥相关的那篇文章。
+其中公私玥参考公私玥相关的[那篇文章](https://github.com/lvxunDev/yunhetong-php-sdk/wiki/%E7%94%9F%E6%88%90RSA%E5%85%AC%E7%A7%81%E7%8E%A5)
 
 
 # 0x02 导入用户
