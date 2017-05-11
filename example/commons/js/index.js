@@ -16,9 +16,7 @@ for (var i = 0; i < length; i++) {
     b1 -= b;
 }
 style+="</style>";
-console.log(style);
 var head=document.getElementsByTagName("head")[0];
-console.log(head);
 head.innerHTML+=style;
 
 

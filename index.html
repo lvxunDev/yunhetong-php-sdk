@@ -19,39 +19,17 @@
                 功能选择
             </h1>
             <ol>
-                <li @click="getToken('A')">
-                    <button>获取用户 A 的 Token</button>
-                </li>
-                <li @click="getToken('B')">
-                    <button>获取用户 B 的 Token</button>
-                </li>
-                <li @click="createContract()">
-                    <button>创建合同</button>
-                </li>
-                <li @click="tokenContract()">
-                    <button>获取 Token 并创建合同</button>
-                </li>
-                <li @click="updateUserInfo()">
-                    <button>修改用户信息</button>
-                </li>
-                <li @click="queryContract()">
-                    <button>合同查询</button>
-                </li>
-                <li @click="voidContract()">
-                    <button>作废合同</button>
-                </li>
-                <li @click="downloadContract()">
-                    <button>合同下载</button>
-                </li>
-                <li @click="messageReceive()">
-                    <button>消息回调</button>
-                </li>
-                <li @click="toSignManager">
-                    <button>去签名管理页面</button>
-                </li>
-                <li @click="toContractManager">
-                    <button>去合同管理页面</button>
-                </li>
+                <li @click="getToken('A')"><button>获取用户 A 的 Token</button></li>
+                <li @click="getToken('B')"><button>获取用户 B 的 Token</button></li>
+                <li @click="createContract()"><button>创建合同</button></li>
+                <li @click="tokenContract()"><button>获取 Token 并创建合同</button></li>
+                <li @click="updateUserInfo()"><button>修改用户信息</button></li>
+                <li @click="queryContract()"><button>合同查询</button></li>
+                <li @click="voidContract()"><button>作废合同</button></li>
+                <li @click="downloadContract()"><button>合同下载</button></li>
+                <li @click="messageReceive()"><button>消息回调</button></li>
+                <li @click="toSignManager"><button>去签名管理页面</button></li>
+                <li @click="toContractManager"><button>去合同管理页面</button></li>
             </ol>
         </div>
 
@@ -115,6 +93,10 @@
 <script src="/example/commons/js/index.js"></script>
 <script type="text/javascript">
 
+//    sessionStorage.removeItem("yhtDate");
+//    sessionStorage.removeItem("yhtToken");
+
+
     new Vue({
         el: "#main",
         data: {
@@ -139,6 +121,7 @@
                 vm.$http.get('/example/token.php', {params: {user: user}}).then(function (response) {
                     vm.preResponse = ObjectToHtml1(response.body);
                     var body = JSON.parse(response.body);
+//                    YHT.setToken(body.value.token);//重新设置token
                     vm.token = body.value.token;
                 });
             },
@@ -235,7 +218,7 @@
                 YHT.queryContract(function successFun(url) {
                     window.open(url);
                 }, function failFun(data) {
-                    alert(data.code + " || " + data.msg);
+//                    alert(data.code + " || " + data.msg);
                 }, /*要操作的合同Id*/ vm.opt_contractId, /*这个是回调的前端回调的url*/vm.opt_backURL, /*JSON.stringify()之后的回调参数*/vm.opt_backPara);
             }
         }
