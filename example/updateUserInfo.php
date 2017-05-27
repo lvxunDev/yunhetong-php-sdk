@@ -19,6 +19,6 @@ if (isset($_GET['user']) && $_GET['user'] = 'B') {
 }
 
 $sdk_manager = R::getLxSDKManager();
-echo $sdk_manager->sync_get_token($user);
+echo $sdk_manager->update_user($user);
 
 exit;

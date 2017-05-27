@@ -89,7 +89,8 @@ class LxSDKManager
     public function update_user($user)
     {
         $url = "/third/userUpdate";
-        $secret = $this->lx_secret_manager->encrypt(json_encode($user));
+        $current_user = array("currentUser" => $user);
+        $secret = $this->lx_secret_manager->encrypt(json_encode($current_user));
         $data = array("appid" => $this->app_id, "secret" => $secret);
         $result = Http::send_request($this->host . $url, $data, '', 'post');
         return $this->lx_secret_manager->decrypt($result['body']);
