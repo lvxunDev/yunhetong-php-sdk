@@ -11,7 +11,7 @@ include_once("./resource/R.php");
 
 
 $user = null;
-if (isset($_GET['user']) && $_GET['user'] = 'B') {
+if (isset($_GET['user']) && $_GET['user'] == 'B') {
     $user = R::getUserB();
 } else {
     $user = R::getUserA();
